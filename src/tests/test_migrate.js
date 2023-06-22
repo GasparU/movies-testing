@@ -1,5 +1,6 @@
+const { request } = require('../app');
 const sequelize = require('../utils/connection');
-require('../models/Movies')
+require("../models")
 const main = async() => {
     try{
         await sequelize.sync({ force: true });

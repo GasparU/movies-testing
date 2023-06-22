@@ -77,6 +77,9 @@ test("POST -> '/api/v1/movies/:id/actors' should return status 200 and res.body.
 
         
     expect(res.status).toBe(200)
+    expect(res.body).toHaveLength(1)
+
+    await actor.destroy()
 })
 
 test("POST -> '/api/v1/movies/:id/directors' should return status 200 and res.body.length = 1", async ()=>{

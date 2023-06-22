@@ -12,8 +12,7 @@ test("POST -> '/api/v1/genres', should return status code 201", async()=>{
     const res = await supertest(app)
         .post('/api/v1/genres')
         .send(genres)
-        
-        
+            
         genresId = res.body.id
 
     expect(res.status).toBe(201)

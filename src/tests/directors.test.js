@@ -35,8 +35,6 @@ test("GET One-> '/api/v1/directors', should return status code 200, and res.body
     const res = await supertest(app)
         .get(`/api/v1/directors/${directorstId}`)
 
-    
-
     expect(res.status).toBe(200)
     expect(res.body.firstName).toBe("Yenny")
 })
