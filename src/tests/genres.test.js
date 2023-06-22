@@ -2,7 +2,7 @@ const supertest = require('supertest') //otro nombre aparte de supertest es requ
 const app = require('../app')
 require('../models')
 
-let directorstId
+let genreId
 test("POST -> '/api/v1/genres', should return status code 201", async()=>{
     const genres = {
         name: "Terror"
@@ -13,7 +13,7 @@ test("POST -> '/api/v1/genres', should return status code 201", async()=>{
         .post('/api/v1/genres')
         .send(genres)
             
-        genresId = res.body.id
+        genreId = res.body.id
 
     expect(res.status).toBe(201)
     expect(res.body.name).toBe(genres.name)
@@ -29,7 +29,7 @@ test("GET -> '/api/v1/genres', should return status code 200", async()=>{
 test("GET One-> '/api/v1/genres', should return status code 200, and res.body.firstName should return 'jose' ", async()=>{
 
     const res = await supertest(app)
-        .get(`/api/v1/genres/${genresId}`)
+        .get(`/api/v1/genres/${genreId}`)
 
     expect(res.status).toBe(200)
     expect(res.body.name).toBe("Terror")
@@ -41,7 +41,7 @@ test("PUT -> '/api/v1/genres/:id' should return status 200 and res.body.firstNam
     }
 
     const res = await supertest(app)
-        .put(`/api/v1/genres/${genresId}`)
+        .put(`/api/v1/genres/${genreId}`)
         .send(genres)
 
     
@@ -50,6 +50,6 @@ test("PUT -> '/api/v1/genres/:id' should return status 200 and res.body.firstNam
 })
 
 test("DELETE -> '/api/v1/genres/:id' should return status 204", async ()=>{
-    const res = await supertest(app).delete(`/api/v1/movies/${genresId}`)
+    const res = await supertest(app).delete(`/api/v1/genres/${genreId}`)
     expect(res.status).toBe(204)
 })

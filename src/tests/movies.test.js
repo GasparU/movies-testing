@@ -6,7 +6,7 @@ const Genres = require('../models/Genres')
 
 require('../models')
 
-let moviestId
+let movieId
 test("POST -> '/api/v1/movies', should return status code 201", async()=>{
     const movies = {
         name: "Star Wars",
@@ -19,7 +19,7 @@ test("POST -> '/api/v1/movies', should return status code 201", async()=>{
         .post('/api/v1/movies')
         .send(movies)
    
-    moviestId = res.body.id
+        movieId = res.body.id
 
     expect(res.status).toBe(201)
     expect(res.body.name).toBe(movies.name)
@@ -38,7 +38,7 @@ test("GET -> '/api/v1/movies', should return status code 200", async()=>{
 test("GET One-> '/api/v1/movies', should return status code 200, and res.body.firstName should return 'jose' ", async()=>{
 
     const res = await supertest(app)
-        .get(`/api/v1/movies/${moviestId}`)
+        .get(`/api/v1/movies/${movieId}`)
 
     expect(res.status).toBe(200)
     expect(res.body.name).toBe("Star Wars")
@@ -46,14 +46,11 @@ test("GET One-> '/api/v1/movies', should return status code 200, and res.body.fi
 
 test("PUT -> '/api/v1/movies/:id' should return status 200 and res.body.firstName --- Student.firstName", async()=>{
     const movies = {
-        name: "Mario Bros",
-        image: "imagen2",
-        synopsis: "resumen star wars",
-        releaseYear: "1992"
+        name: "Mario Bros"
     }
 
     const res = await supertest(app)
-        .put(`/api/v1/movies/${moviestId}`)
+        .put(`/api/v1/movies/${movieId}`)
         .send(movies)
 
     expect(res.status).toBe(200)
@@ -72,7 +69,7 @@ test("POST -> '/api/v1/movies/:id/actors' should return status 200 and res.body.
     const actor = await Actors.create(actors)
 
     const res = await supertest(app)
-        .post(`/api/v1/movies/${moviestId}/actors`)
+        .post(`/api/v1/movies/${movieId}/actors`)
         .send([actor.id])
 
         
@@ -94,10 +91,13 @@ test("POST -> '/api/v1/movies/:id/directors' should return status 200 and res.bo
     const director = await Directors.create(directors)
 
     const res = await supertest(app)
-        .post(`/api/v1/movies/${moviestId}/directors`)
+        .post(`/api/v1/movies/${movieId}/directors`)
         .send([director.id])
        
     expect(res.status).toBe(200)
+    expect(res.body).toHaveLength(1)
+
+    await director.destroy()
 })
 
 test("POST -> '/api/v1/movies/:id/genres' should return status 200 and res.body.length = 1", async ()=>{
@@ -108,13 +108,16 @@ test("POST -> '/api/v1/movies/:id/genres' should return status 200 and res.body.
     const genre = await Genres.create(genres)
 
     const res = await supertest(app)
-        .post(`/api/v1/movies/${moviestId}/genres`)
+        .post(`/api/v1/movies/${movieId}/genres`)
         .send([genre.id])
 
     expect(res.status).toBe(200)
+    expect(res.body).toHaveLength(1)
+
+    await genre.destroy()
 })
 
 test("DELETE -> '/api/v1/movies/:id' should return status 204", async ()=>{
-    const res = await supertest(app).delete(`/api/v1/movies/${moviestId}`)
+    const res = await supertest(app).delete(`/api/v1/movies/${movieId}`)
     expect(res.status).toBe(204)
 })
