@@ -13,7 +13,7 @@ test("POST -> '/api/v1/genres', should return status code 201", async()=>{
         .post('/api/v1/genres')
         .send(genres)
         
-        console.log(res.body)
+        
         genresId = res.body.id
 
     expect(res.status).toBe(201)
@@ -32,8 +32,6 @@ test("GET One-> '/api/v1/genres', should return status code 200, and res.body.fi
     const res = await supertest(app)
         .get(`/api/v1/genres/${genresId}`)
 
-    console.log(res.body)
-
     expect(res.status).toBe(200)
     expect(res.body.name).toBe("Terror")
 })
@@ -47,7 +45,7 @@ test("PUT -> '/api/v1/genres/:id' should return status 200 and res.body.firstNam
         .put(`/api/v1/genres/${genresId}`)
         .send(genres)
 
-    console.log(res.body)
+    
     expect(res.status).toBe(200)
     expect(res.body.name).toBe(genres.name)
 })

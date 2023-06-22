@@ -16,7 +16,7 @@ test("POST -> '/api/v1/directors', should return status code 201", async()=>{
         .post('/api/v1/directors')
         .send(directors)
         
-        console.log(res.body)
+        
         directorstId = res.body.id
 
     expect(res.status).toBe(201)
@@ -35,7 +35,7 @@ test("GET One-> '/api/v1/directors', should return status code 200, and res.body
     const res = await supertest(app)
         .get(`/api/v1/directors/${directorstId}`)
 
-    console.log(res.body)
+    
 
     expect(res.status).toBe(200)
     expect(res.body.firstName).toBe("Yenny")
@@ -54,7 +54,7 @@ test("PUT -> '/api/v1/directors/:id' should return status 200 and res.body.first
         .put(`/api/v1/directors/${directorstId}`)
         .send(directors)
 
-    console.log(res.body)
+    
     expect(res.status).toBe(200)
     expect(res.body.firstName).toBe(directors.firstName)
 })
